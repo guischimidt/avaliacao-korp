@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ApiService } from '../services/api.service';
+import { ResetFormService } from '../services/reset-form.service';
 
 import { Person } from '../models/person';
 
@@ -20,7 +22,8 @@ export class PersonsComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private resetFormService: ResetFormService
     ) {
         this.personForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(7)]],
@@ -53,7 +56,7 @@ export class PersonsComponent implements OnInit {
                 next: () => {
                     this.message = 'Pessoa cadastrada com sucesso';
                     this.type = 'success';
-                    this.clear();
+                    this.resetForm();
                     this.ngOnInit();
                 },
                 error: (error) => {
@@ -66,11 +69,7 @@ export class PersonsComponent implements OnInit {
         }
     }
 
-    clear() {
-        this.personForm.reset();
-
-        Object.keys(this.personForm.controls).forEach((key) => {
-            this.personForm.controls[key].setErrors(null);
-        });
+    resetForm() {
+        this.resetFormService.resetForm(this.personForm);
     }
 }

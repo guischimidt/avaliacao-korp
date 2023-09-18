@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
+import { ResetFormService } from '../services/reset-form.service';
 
 @Component({
     selector: 'app-accounts',
@@ -19,15 +20,18 @@ export class AccountsComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private resetFormService: ResetFormService
     ) {
         this.accountForm = this.fb.group({
-            userId: [null],
-            accountNumber: [null],
+            userId: [null, Validators.required],
+            accountNumber: [null, Validators.required],
         });
     }
 
     ngOnInit(): void {
+        console.log(this.accountForm);
+
         this.apiService.getPersons().subscribe((res) => {
             console.log(res);
             this.users = res;
@@ -45,13 +49,15 @@ export class AccountsComponent implements OnInit {
     type = '';
 
     onSubmit() {
+        console.log(this.accountForm);
+
         if (this.accountForm.valid) {
             console.log(this.accountForm.value);
             this.apiService.saveAccount(this.accountForm.value).subscribe({
                 next: () => {
                     this.message = 'Pessoa cadastrada com sucesso';
                     this.type = 'success';
-                    this.clear();
+                    this.resetForm();
                     this.ngOnInit();
                 },
                 error: (error) => {
@@ -64,7 +70,7 @@ export class AccountsComponent implements OnInit {
         }
     }
 
-    clear() {
-        console.log('Limpar');
+    resetForm() {
+        this.resetFormService.resetForm(this.accountForm);
     }
 }
