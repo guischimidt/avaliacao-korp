@@ -51,7 +51,7 @@
         <ng-container matColumnDef="cpf">
             <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{ element.userId.cpf }}
+                {{ element.userId.cpf | mask: '000.000.000-00' }}
             </mat-cell>
         </ng-container>
 
