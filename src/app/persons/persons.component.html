@@ -9,6 +9,9 @@
             <mat-error *ngIf="personForm.get('name')?.hasError('minlength')">
                 Informar nome completo
             </mat-error>
+            <mat-error *ngIf="personForm.get('name')?.hasError('required')">
+                O nome é obrigatório
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -23,6 +26,9 @@
             <mat-error *ngIf="personForm.get('cpf')?.hasError('minlength')">
                 CPF deve ter 11 dígitos.
             </mat-error>
+            <mat-error *ngIf="personForm.get('cpf')?.hasError('required')">
+                O CPF é obrigatório
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -30,6 +36,9 @@
             <input matInput placeholder="Endereço" formControlName="address" />
             <mat-error *ngIf="personForm.get('address')?.hasError('minlength')">
                 Informar endereço completo
+            </mat-error>
+            <mat-error *ngIf="personForm.get('address')?.hasError('required')">
+                O endereço é obrigatório
             </mat-error>
         </mat-form-field>
         <div>
