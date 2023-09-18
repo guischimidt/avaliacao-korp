@@ -1,0 +1,70 @@
+<app-messages *ngIf="type" [message]="message" [type]="type"></app-messages>
+
+<div class="container">
+    <h2>Cadastrar Pessoa</h2>
+    <form [formGroup]="personForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput placeholder="Nome" formControlName="name" />
+            <mat-error *ngIf="personForm.get('name')?.hasError('minlength')">
+                Informar nome completo
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>CPF</mat-label>
+            <input
+                mask="000.000.000-00"
+                matInput
+                placeholder="CPF"
+                formControlName="cpf"
+                maxlength="14"
+            />
+            <mat-error *ngIf="personForm.get('cpf')?.hasError('minlength')">
+                CPF deve ter 11 dígitos.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Endereço Completo</mat-label>
+            <input matInput placeholder="Endereço" formControlName="address" />
+            <mat-error *ngIf="personForm.get('address')?.hasError('minlength')">
+                Informar endereço completo
+            </mat-error>
+        </mat-form-field>
+        <div>
+            <button mat-flat-button color="primary" (click)="onSubmit()">
+                Salvar
+            </button>
+            <button mat-flat-button color="secondary" (click)="clear()">
+                Limpar
+            </button>
+        </div>
+    </form>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.name }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cpf">
+            <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.cpf | mask: '000.000.000-00' }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef> Endereço </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.address }}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+</div>
