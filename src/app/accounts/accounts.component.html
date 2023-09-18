@@ -31,4 +31,32 @@
             </button>
         </div>
     </form>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.userId.name }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cpf">
+            <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.userId.cpf }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="accountNumber">
+            <mat-header-cell *matHeaderCellDef>
+                Número da Conta
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.accountNumber }}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
 </div>

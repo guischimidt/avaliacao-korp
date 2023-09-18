@@ -12,11 +12,11 @@ import { Person } from '../models/person';
     styleUrls: ['./persons.component.sass'],
 })
 export class PersonsComponent implements OnInit {
-    person: Person[] = [];
-
-    personForm: FormGroup;
     displayedColumns: string[] = ['name', 'cpf', 'address'];
     public dataSource = new MatTableDataSource<Person>();
+
+    person: Person[] = [];
+    personForm: FormGroup;
 
     constructor(
         private fb: FormBuilder,

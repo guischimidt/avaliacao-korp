@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
@@ -9,6 +11,9 @@ import { ApiService } from '../services/api.service';
     styleUrls: ['./accounts.component.sass'],
 })
 export class AccountsComponent implements OnInit {
+    displayedColumns: string[] = ['name', 'cpf', 'accountNumber'];
+    public dataSource = new MatTableDataSource<any>();
+
     accountForm: FormGroup;
     users: any;
 
@@ -27,6 +32,12 @@ export class AccountsComponent implements OnInit {
             console.log(res);
             this.users = res;
             console.log(this.users);
+        });
+
+        this.apiService.getAccounts().subscribe((res) => {
+            console.log(res);
+            this.dataSource.data = res;
+            console.log(this.dataSource.data);
         });
     }
 
