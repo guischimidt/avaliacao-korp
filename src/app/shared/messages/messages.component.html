@@ -1,0 +1,12 @@
+<div
+    class="alert"
+    [ngClass]="{ error: type === 'error', success: type === 'success' }"
+>
+    <mat-icon *ngIf="type === 'error'" fontIcon="error_outlined"></mat-icon>
+    <mat-icon
+        *ngIf="type === 'success'"
+        fontIcon="task_alt_outlined"
+    ></mat-icon>
+
+    <div class="message">{{ message }}</div>
+</div>
