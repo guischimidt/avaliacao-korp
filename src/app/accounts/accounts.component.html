@@ -10,6 +10,9 @@
                     {{ user.name }}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="accountForm.get('userId')?.hasError('required')">
+                Você deve selecionar uma pessoa
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -20,6 +23,11 @@
                 placeholder="Número da Conta"
                 formControlName="accountNumber"
             />
+            <mat-error
+                *ngIf="accountForm.get('accountNumber')?.hasError('required')"
+            >
+                O número de conta é obrigatório
+            </mat-error>
         </mat-form-field>
 
         <div>
