@@ -26,6 +26,5 @@ import { PersonsComponent } from './persons.component';
         MessagesModule,
     ],
     providers: [provideNgxMask()],
-    exports: [PersonsComponent],
 })
 export class PersonsModule {}

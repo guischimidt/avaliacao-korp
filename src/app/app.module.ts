@@ -15,6 +15,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 
 import { PersonsModule } from './persons/persons.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @NgModule({
     declarations: [AppComponent, ToolbarComponent],
@@ -28,6 +29,7 @@ import { AccountsModule } from './accounts/accounts.module';
         MatIconModule,
         PersonsModule,
         AccountsModule,
+        TransactionsModule,
     ],
     providers: [provideEnvironmentNgxMask()],
     bootstrap: [AppComponent],
