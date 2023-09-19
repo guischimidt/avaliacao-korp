@@ -58,6 +58,12 @@ export class ApiService {
             .pipe(catchError(this.handleError));
     }
 
+    getTransactions(accountId: any): Observable<any> {
+        return this.httpClient
+            .get<any>(`${this.url}account/${accountId}/transactions`)
+            .pipe(catchError(this.handleError));
+    }
+
     handleError(error: HttpErrorResponse) {
         let errorMessage = '';
         errorMessage = error.error.error;
