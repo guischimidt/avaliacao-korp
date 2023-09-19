@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
 import { ResetFormService } from '../services/reset-form.service';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
     selector: 'app-transactions',
@@ -22,7 +23,8 @@ export class TransactionsComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private apiService: ApiService,
-        private resetFormService: ResetFormService
+        private resetFormService: ResetFormService,
+        private messagesService: MessagesService
     ) {
         this.transactionForm = this.fb.group({
             userId: [null],
@@ -81,31 +83,33 @@ export class TransactionsComponent implements OnInit {
         });
     }
 
-    message = '';
-    type = '';
-
     onSubmit() {
         if (this.transactionForm.valid) {
             this.apiService
                 .saveTransaction(this.transactionForm.value)
                 .subscribe({
                     next: () => {
-                        this.message = 'Transação realizada com sucesso';
-                        this.type = 'success';
-
+                        this.messagesService.sendMessage(
+                            'Transação realizada com sucesso',
+                            'success'
+                        );
                         this.getAccounts(this.transactionForm.value.userId);
                         this.getTransactions(
                             this.transactionForm.value.accountId
                         );
                     },
                     error: (error) => {
-                        this.message = error.message;
-                        this.type = 'error';
+                        this.messagesService.sendMessage(
+                            error.message,
+                            'error'
+                        );
                     },
                 });
         } else {
-            this.message = 'Formulário inválido. Não pode ser enviado.';
-            this.type = 'error';
+            this.messagesService.sendMessage(
+                'Formulário inválido. Não pode ser enviado.',
+                'error'
+            );
         }
     }
 

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MatTableDataSource } from '@angular/material/table';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
 import { ResetFormService } from '../services/reset-form.service';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
     selector: 'app-accounts',
@@ -21,7 +23,8 @@ export class AccountsComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private apiService: ApiService,
-        private resetFormService: ResetFormService
+        private resetFormService: ResetFormService,
+        private messagesService: MessagesService
     ) {
         this.accountForm = this.fb.group({
             userId: [null, Validators.required],
@@ -39,26 +42,26 @@ export class AccountsComponent implements OnInit {
         });
     }
 
-    message = '';
-    type = '';
-
     onSubmit() {
         if (this.accountForm.valid) {
             this.apiService.saveAccount(this.accountForm.value).subscribe({
                 next: () => {
-                    this.message = 'Conta cadastrada com sucesso';
-                    this.type = 'success';
+                    this.messagesService.sendMessage(
+                        'Conta cadastrada com sucesso',
+                        'success'
+                    );
                     this.resetForm();
                     this.ngOnInit();
                 },
                 error: (error) => {
-                    this.message = error.message;
-                    this.type = 'error';
+                    this.messagesService.sendMessage(error.message, 'error');
                 },
             });
         } else {
-            this.message = 'Formulário inválido. Não pode ser enviado.';
-            this.type = 'error';
+            this.messagesService.sendMessage(
+                'Formulário inválido. Não pode ser enviado.',
+                'error'
+            );
         }
     }
 
