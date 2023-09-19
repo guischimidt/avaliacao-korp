@@ -55,7 +55,7 @@ export class AccountsComponent implements OnInit {
             console.log(this.accountForm.value);
             this.apiService.saveAccount(this.accountForm.value).subscribe({
                 next: () => {
-                    this.message = 'Pessoa cadastrada com sucesso';
+                    this.message = 'Conta cadastrada com sucesso';
                     this.type = 'success';
                     this.resetForm();
                     this.ngOnInit();
