@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +19,8 @@ import { PersonsModule } from './persons/persons.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { TransactionsModule } from './transactions/transactions.module';
 
+registerLocaleData(ptBr);
+
 @NgModule({
     declarations: [AppComponent, ToolbarComponent],
     imports: [
@@ -31,7 +35,17 @@ import { TransactionsModule } from './transactions/transactions.module';
         AccountsModule,
         TransactionsModule,
     ],
-    providers: [provideEnvironmentNgxMask()],
+    providers: [
+        provideEnvironmentNgxMask(),
+        {
+            provide: LOCALE_ID,
+            useValue: 'pt',
+        },
+        {
+            provide: DEFAULT_CURRENCY_CODE,
+            useValue: 'BRL',
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
