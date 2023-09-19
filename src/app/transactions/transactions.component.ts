@@ -75,7 +75,6 @@ export class TransactionsComponent implements OnInit {
         this.balance = this.accounts.find(
             (account: { _id: any }) => account._id === accountId
         )?.balance;
-        console.log(this.accounts);
 
         this.apiService.getTransactions(accountId).subscribe((res) => {
             this.dataSource.data = res;
@@ -105,7 +104,8 @@ export class TransactionsComponent implements OnInit {
                     },
                 });
         } else {
-            console.log('Formulário inválido. Não pode ser enviado.');
+            this.message = 'Formulário inválido. Não pode ser enviado.';
+            this.type = 'error';
         }
     }
 

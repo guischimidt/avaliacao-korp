@@ -30,18 +30,12 @@ export class AccountsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.accountForm);
-
         this.apiService.getPersons().subscribe((res) => {
-            console.log(res);
             this.users = res;
-            console.log(this.users);
         });
 
         this.apiService.getAccounts().subscribe((res) => {
-            console.log(res);
             this.dataSource.data = res;
-            console.log(this.dataSource.data);
         });
     }
 
@@ -49,10 +43,7 @@ export class AccountsComponent implements OnInit {
     type = '';
 
     onSubmit() {
-        console.log(this.accountForm);
-
         if (this.accountForm.valid) {
-            console.log(this.accountForm.value);
             this.apiService.saveAccount(this.accountForm.value).subscribe({
                 next: () => {
                     this.message = 'Conta cadastrada com sucesso';
@@ -66,7 +57,8 @@ export class AccountsComponent implements OnInit {
                 },
             });
         } else {
-            console.log('Formulário inválido. Não pode ser enviado.');
+            this.message = 'Formulário inválido. Não pode ser enviado.';
+            this.type = 'error';
         }
     }
 

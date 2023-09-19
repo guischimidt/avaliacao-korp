@@ -41,9 +41,7 @@ export class PersonsComponent implements OnInit {
 
     ngOnInit(): void {
         this.apiService.getPersons().subscribe((res) => {
-            console.log(res);
             this.dataSource.data = res;
-            console.log(this.dataSource.data);
         });
     }
 
@@ -65,7 +63,8 @@ export class PersonsComponent implements OnInit {
                 },
             });
         } else {
-            console.log('Formulário inválido. Não pode ser enviado.');
+            this.message = 'Formulário inválido. Não pode ser enviado.';
+            this.type = 'error';
         }
     }
 
