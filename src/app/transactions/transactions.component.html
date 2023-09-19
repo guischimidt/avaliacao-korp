@@ -1,1 +1,78 @@
-<p>transactions works!</p>
+<app-messages *ngIf="type" [message]="message" [type]="type"></app-messages>
+
+<div class="container">
+    <h2>Realizar Transações</h2>
+    <form [formGroup]="transactionForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Selecione a pessoa</mat-label>
+            <mat-select formControlName="userId">
+                <mat-option *ngFor="let user of users" [value]="user._id">
+                    {{ user.name }} - {{ user.cpf | mask: '000.000.000-00' }}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="transactionForm.get('userId')?.hasError('required')"
+            >
+                Você deve selecionar uma pessoa
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Selecione a conta</mat-label>
+            <mat-select formControlName="accountId">
+                <mat-option
+                    *ngFor="let account of accounts"
+                    [value]="account._id"
+                >
+                    {{ account.accountNumber }} - R$
+                    {{ account.balance | number: '1.2-2' }}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="transactionForm.get('accountId')?.hasError('required')"
+            >
+                Você deve selecionar uma conta
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Valor</mat-label>
+            <input
+                type="number"
+                matInput
+                placeholder="Valor"
+                formControlName="amount"
+                maxlength="14"
+            />
+            <mat-error
+                *ngIf="transactionForm.get('amount')?.hasError('required')"
+            >
+                O valor é obrigatório
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Selecione o tipo</mat-label>
+            <mat-select formControlName="transactionType">
+                <mat-option value="deposit"> Depósito </mat-option>
+                <mat-option value="withdraw"> Retirada </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="
+                    transactionForm.get('transactionType')?.hasError('required')
+                "
+            >
+                Você deve selecionar o tipo de transação
+            </mat-error>
+        </mat-form-field>
+
+        <div>
+            <button mat-flat-button color="primary" (click)="onSubmit()">
+                Salvar
+            </button>
+            <button mat-flat-button color="secondary" (click)="resetForm()">
+                Limpar
+            </button>
+        </div>
+    </form>
+</div>
