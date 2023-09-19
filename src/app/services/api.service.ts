@@ -48,6 +48,16 @@ export class ApiService {
             .pipe(catchError(this.handleError));
     }
 
+    saveTransaction(values: any): Observable<any> {
+        return this.httpClient
+            .post<any>(
+                `${this.url}account/${values.accountId}/${values.transactionType}`,
+                values,
+                this.httpOptions
+            )
+            .pipe(catchError(this.handleError));
+    }
+
     handleError(error: HttpErrorResponse) {
         let errorMessage = '';
         errorMessage = error.error.error;
