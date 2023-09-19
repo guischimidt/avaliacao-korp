@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
@@ -11,9 +11,13 @@ import { ResetFormService } from '../services/reset-form.service';
     styleUrls: ['./transactions.component.sass'],
 })
 export class TransactionsComponent implements OnInit {
+    displayedColumns: string[] = ['date', 'type', 'amount'];
+    public dataSource = new MatTableDataSource<any>();
+
     transactionForm: FormGroup;
     users: any;
     accounts: any;
+    balance: any;
 
     constructor(
         private fb: FormBuilder,
@@ -35,14 +39,46 @@ export class TransactionsComponent implements OnInit {
 
         this.transactionForm.get('userId')?.valueChanges.subscribe((userId) => {
             if (userId) {
-                this.apiService.getAccounts().subscribe((res) => {
-                    this.accounts = res;
-                    this.accounts = this.accounts.filter(
-                        (account: { userId: { _id: any } }) =>
-                            account.userId._id === userId
-                    );
-                });
+                this.getAccounts(userId);
             }
+        });
+
+        this.transactionForm
+            .get('accountId')
+            ?.valueChanges.subscribe((accountId) => {
+                if (accountId) {
+                    this.getTransactions(accountId);
+                }
+            });
+    }
+
+    getAccounts(userId: any) {
+        this.apiService.getAccounts().subscribe((res) => {
+            this.accounts = res;
+            this.accounts = this.accounts.filter(
+                (account: { userId: { _id: any } }) =>
+                    account.userId._id === userId
+            );
+            if (this.transactionForm.value.accountId) {
+                this.updateBalance(this.transactionForm.value.accountId);
+            }
+        });
+    }
+
+    updateBalance(accountId: any) {
+        this.balance = this.accounts.find(
+            (account: { _id: any }) => account._id === accountId
+        ).balance;
+    }
+
+    getTransactions(accountId: any) {
+        this.balance = this.accounts.find(
+            (account: { _id: any }) => account._id === accountId
+        )?.balance;
+        console.log(this.accounts);
+
+        this.apiService.getTransactions(accountId).subscribe((res) => {
+            this.dataSource.data = res;
         });
     }
 
@@ -57,8 +93,11 @@ export class TransactionsComponent implements OnInit {
                     next: () => {
                         this.message = 'Transação realizada com sucesso';
                         this.type = 'success';
-                        this.resetForm();
-                        this.ngOnInit();
+
+                        this.getAccounts(this.transactionForm.value.userId);
+                        this.getTransactions(
+                            this.transactionForm.value.accountId
+                        );
                     },
                     error: (error) => {
                         this.message = error.message;
