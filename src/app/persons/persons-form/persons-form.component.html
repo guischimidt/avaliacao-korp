@@ -19,11 +19,11 @@
             formControlName="cpf"
             maxlength="14"
         />
-        <mat-error *ngIf="personForm.get('cpf')?.hasError('minlength')">
-            CPF deve ter 11 dígitos.
-        </mat-error>
         <mat-error *ngIf="personForm.get('cpf')?.hasError('required')">
             O CPF é obrigatório
+        </mat-error>
+        <mat-error *ngIf="personForm.get('cpf')?.hasError('cpfNotValid')">
+            O CPF não é válido
         </mat-error>
     </mat-form-field>
 

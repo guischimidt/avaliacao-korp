@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from '../../services/messages.service';
 import { ResetFormService } from '../../services/reset-form.service';
 
+import { CPFValidator } from '../../shared/cpf.validator';
+
 @Component({
     selector: 'app-persons-form',
     templateUrl: './persons-form.component.html',
@@ -29,14 +31,7 @@ export class PersonsFormComponent implements OnChanges {
     ) {
         this.personForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(7)]],
-            cpf: [
-                '',
-                [
-                    Validators.required,
-                    Validators.minLength(11),
-                    Validators.maxLength(11),
-                ],
-            ],
+            cpf: ['', [Validators.required, CPFValidator.isValidCpf()]],
             address: ['', [Validators.required, Validators.minLength(10)]],
         });
     }
