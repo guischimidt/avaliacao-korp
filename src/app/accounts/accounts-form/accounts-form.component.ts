@@ -5,6 +5,8 @@ import { MessagesService } from '../../services/messages.service';
 import { ResetFormService } from '../../services/reset-form.service';
 import { ApiService } from '../../services/api.service';
 
+import { Person } from '../../models/person';
+
 @Component({
     selector: 'app-accounts-form',
     templateUrl: './accounts-form.component.html',
@@ -15,7 +17,7 @@ export class AccountsFormComponent implements OnInit {
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
 
     accountForm: FormGroup;
-    users: any;
+    persons: Person[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -31,7 +33,7 @@ export class AccountsFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.apiService.getPersons().subscribe((res) => {
-            this.users = res;
+            this.persons = res;
         });
     }
 

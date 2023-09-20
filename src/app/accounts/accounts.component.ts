@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
 import { MatTableDataSource } from '@angular/material/table';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ApiService } from '../services/api.service';
-import { ResetFormService } from '../services/reset-form.service';
 import { MessagesService } from '../services/messages.service';
+
+import { Person } from '../models/person';
 
 @Component({
     selector: 'app-accounts',
@@ -18,12 +17,11 @@ export class AccountsComponent implements OnInit {
     public dataSource = new MatTableDataSource<any>();
 
     accountForm: FormGroup;
-    users: any;
+    persons: Person[] = [];
 
     constructor(
         private fb: FormBuilder,
         private apiService: ApiService,
-        private resetFormService: ResetFormService,
         private messagesService: MessagesService
     ) {
         this.accountForm = this.fb.group({
@@ -34,7 +32,7 @@ export class AccountsComponent implements OnInit {
 
     ngOnInit(): void {
         this.apiService.getPersons().subscribe((res) => {
-            this.users = res;
+            this.persons = res;
         });
 
         this.apiService.getAccounts().subscribe((res) => {
