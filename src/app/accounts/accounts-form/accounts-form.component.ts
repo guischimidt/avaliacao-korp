@@ -6,6 +6,7 @@ import { ResetFormService } from '../../services/reset-form.service';
 import { ApiService } from '../../services/api.service';
 
 import { Person } from '../../models/person';
+import { Account } from '../../models/account';
 
 @Component({
     selector: 'app-accounts-form',
@@ -13,7 +14,7 @@ import { Person } from '../../models/person';
     styleUrls: ['./accounts-form.component.sass'],
 })
 export class AccountsFormComponent implements OnInit {
-    @Output() submitForm: EventEmitter<void> = new EventEmitter<void>();
+    @Output() submitForm: EventEmitter<Account> = new EventEmitter<Account>();
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
 
     accountForm: FormGroup;

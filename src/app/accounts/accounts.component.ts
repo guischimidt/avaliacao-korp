@@ -6,6 +6,7 @@ import { ApiService } from '../services/api.service';
 import { MessagesService } from '../services/messages.service';
 
 import { Person } from '../models/person';
+import { Account } from '../models/account';
 
 @Component({
     selector: 'app-accounts',
@@ -14,7 +15,7 @@ import { Person } from '../models/person';
 })
 export class AccountsComponent implements OnInit {
     displayedColumns: string[] = ['name', 'cpf', 'accountNumber'];
-    public dataSource = new MatTableDataSource<any>();
+    public dataSource = new MatTableDataSource<Person>();
 
     accountForm: FormGroup;
     persons: Person[] = [];
@@ -31,21 +32,16 @@ export class AccountsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.apiService.getPersons().subscribe((res) => {
-            this.persons = res;
-        });
-
-        this.apiService.getAccounts().subscribe((res) => {
-            this.dataSource.data = res;
-        });
+        this.getUsers();
+        this.refreshTable();
     }
 
-    onSubmitForm(formData: any) {
+    onSubmitForm(formData: Account) {
         if (formData) {
             this.apiService.saveAccount(formData).subscribe({
                 next: () => {
                     this.messagesService.sendMessage(
-                        'Pessoa cadastrada com sucesso',
+                        'Conta cadastrada com sucesso',
                         'success'
                     );
 
@@ -59,8 +55,14 @@ export class AccountsComponent implements OnInit {
     }
 
     private refreshTable() {
-        this.apiService.getAccounts().subscribe((res) => {
+        this.apiService.getAccounts().subscribe((res: Person[]) => {
             this.dataSource.data = res;
+        });
+    }
+
+    private getUsers() {
+        this.apiService.getPersons().subscribe((res) => {
+            this.persons = res;
         });
     }
 }
