@@ -43,6 +43,24 @@ export class PersonsComponent implements OnInit {
         }
     }
 
+    onDelete(userId: any) {
+        if (userId) {
+            this.apiService.deletePerson(userId).subscribe({
+                next: () => {
+                    this.messagesService.sendMessage(
+                        'Pessoa deletada com sucesso',
+                        'success'
+                    );
+
+                    this.refreshTable();
+                },
+                error: (error) => {
+                    this.messagesService.sendMessage(error.message, 'error');
+                },
+            });
+        }
+    }
+
     private refreshTable() {
         this.apiService.getPersons().subscribe((res) => {
             this.dataSource.data = res;

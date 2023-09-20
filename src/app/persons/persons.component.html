@@ -8,4 +8,5 @@
 <app-persons-table
     class="container"
     [dataSource]="dataSource"
+    (deleteClicked)="onDelete($event)"
 ></app-persons-table>

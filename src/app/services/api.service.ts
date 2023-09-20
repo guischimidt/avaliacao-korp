@@ -32,6 +32,12 @@ export class ApiService {
             .pipe(catchError(this.handleError));
     }
 
+    deletePerson(userId: any): Observable<any> {
+        return this.httpClient
+            .delete<any>(`${this.url}user/${userId}`)
+            .pipe(catchError(this.handleError));
+    }
+
     saveAccount(values: any): Observable<any> {
         return this.httpClient
             .post<any>(

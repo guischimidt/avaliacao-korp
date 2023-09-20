@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Person } from '../../models/person';
 
@@ -10,5 +10,10 @@ import { Person } from '../../models/person';
 export class PersonsTableComponent {
     @Input() dataSource: MatTableDataSource<Person> =
         new MatTableDataSource<Person>();
-    displayedColumns: string[] = ['name', 'cpf', 'address'];
+    @Output() deleteClicked = new EventEmitter<void>();
+
+    onDelete(userId: any) {
+        this.deleteClicked.emit(userId);
+    }
+    displayedColumns: string[] = ['name', 'cpf', 'address', 'edit', 'delete'];
 }

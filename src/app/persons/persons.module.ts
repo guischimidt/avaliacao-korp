@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
@@ -26,6 +27,7 @@ import { PersonsFormComponent } from './persons-form/persons-form.component';
         ReactiveFormsModule,
         MatInputModule,
         MatButtonModule,
+        MatIconModule,
         MatTableModule,
         MatFormFieldModule,
         NgxMaskDirective,
