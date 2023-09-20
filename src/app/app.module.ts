@@ -15,7 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
-import { PersonsModule } from './persons/persons.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { TransactionsModule } from './transactions/transactions.module';
 
@@ -31,7 +30,6 @@ registerLocaleData(ptBr);
         MatToolbarModule,
         MatButtonModule,
         MatIconModule,
-        PersonsModule,
         AccountsModule,
         TransactionsModule,
     ],

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,9 +12,15 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MessagesModule } from '../shared/messages/messages.module';
 
 import { PersonsComponent } from './persons.component';
+import { PersonsTableComponent } from './persons-table/persons-table.component';
+import { PersonsFormComponent } from './persons-form/persons-form.component';
 
 @NgModule({
-    declarations: [PersonsComponent],
+    declarations: [
+        PersonsComponent,
+        PersonsTableComponent,
+        PersonsFormComponent,
+    ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -24,6 +31,17 @@ import { PersonsComponent } from './persons.component';
         NgxMaskDirective,
         NgxMaskPipe,
         MessagesModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: PersonsComponent,
+                children: [
+                    { path: 'form', component: PersonsFormComponent },
+                    { path: 'table', component: PersonsTableComponent },
+                    { path: '', redirectTo: 'form', pathMatch: 'full' },
+                ],
+            },
+        ]),
     ],
     providers: [provideNgxMask()],
 })
