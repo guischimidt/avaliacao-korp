@@ -23,7 +23,7 @@
     <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="onEdit(element)">
                 <mat-icon fontIcon="edit_outlined"></mat-icon>
             </button>
         </mat-cell>

@@ -1,4 +1,10 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Output,
+    EventEmitter,
+    OnChanges,
+    Input,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MessagesService } from '../../services/messages.service';
@@ -9,9 +15,10 @@ import { ResetFormService } from '../../services/reset-form.service';
     templateUrl: './persons-form.component.html',
     styleUrls: ['./persons-form.component.sass'],
 })
-export class PersonsFormComponent {
+export class PersonsFormComponent implements OnChanges {
     @Output() submitForm: EventEmitter<void> = new EventEmitter<void>();
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
+    @Input() formData: any;
 
     personForm: FormGroup;
 
@@ -32,6 +39,13 @@ export class PersonsFormComponent {
             ],
             address: ['', [Validators.required, Validators.minLength(10)]],
         });
+    }
+
+    ngOnChanges() {
+        if (this.formData) {
+            this.personForm.patchValue(this.formData);
+        }
+        console.log(this.formData);
     }
 
     onSubmit() {

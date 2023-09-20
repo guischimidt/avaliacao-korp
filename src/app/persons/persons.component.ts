@@ -13,6 +13,7 @@ import { Person } from '../models/person';
 })
 export class PersonsComponent implements OnInit {
     public dataSource = new MatTableDataSource<Person>();
+    selectedUserData: any;
 
     constructor(
         private apiService: ApiService,
@@ -27,19 +28,43 @@ export class PersonsComponent implements OnInit {
 
     onSubmitForm(formData: any) {
         if (formData) {
-            this.apiService.savePerson(formData).subscribe({
-                next: () => {
-                    this.messagesService.sendMessage(
-                        'Pessoa cadastrada com sucesso',
-                        'success'
-                    );
+            if (this.selectedUserData) {
+                this.apiService
+                    .updatePerson(this.selectedUserData._id, formData)
+                    .subscribe({
+                        next: () => {
+                            this.messagesService.sendMessage(
+                                'Pessoa editada com sucesso',
+                                'success'
+                            );
+                            this.selectedUserData = null;
+                            this.refreshTable();
+                        },
+                        error: (error) => {
+                            this.messagesService.sendMessage(
+                                error.message,
+                                'error'
+                            );
+                        },
+                    });
+            } else {
+                this.apiService.savePerson(formData).subscribe({
+                    next: () => {
+                        this.messagesService.sendMessage(
+                            'Pessoa cadastrada com sucesso',
+                            'success'
+                        );
 
-                    this.refreshTable();
-                },
-                error: (error) => {
-                    this.messagesService.sendMessage(error.message, 'error');
-                },
-            });
+                        this.refreshTable();
+                    },
+                    error: (error) => {
+                        this.messagesService.sendMessage(
+                            error.message,
+                            'error'
+                        );
+                    },
+                });
+            }
         }
     }
 
@@ -59,6 +84,10 @@ export class PersonsComponent implements OnInit {
                 },
             });
         }
+    }
+
+    onEdit(userData: any) {
+        this.selectedUserData = userData;
     }
 
     private refreshTable() {

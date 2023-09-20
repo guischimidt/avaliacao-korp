@@ -4,9 +4,11 @@
 <app-persons-form
     class="container"
     (submitForm)="onSubmitForm($event)"
+    [formData]="selectedUserData"
 ></app-persons-form>
 <app-persons-table
     class="container"
     [dataSource]="dataSource"
     (deleteClicked)="onDelete($event)"
+    (editClicked)="onEdit($event)"
 ></app-persons-table>

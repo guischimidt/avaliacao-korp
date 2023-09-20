@@ -11,9 +11,14 @@ export class PersonsTableComponent {
     @Input() dataSource: MatTableDataSource<Person> =
         new MatTableDataSource<Person>();
     @Output() deleteClicked = new EventEmitter<void>();
+    @Output() editClicked = new EventEmitter<void>();
 
     onDelete(userId: any) {
         this.deleteClicked.emit(userId);
+    }
+
+    onEdit(userData: any) {
+        this.editClicked.emit(userData);
     }
     displayedColumns: string[] = ['name', 'cpf', 'address', 'edit', 'delete'];
 }

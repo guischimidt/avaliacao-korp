@@ -20,15 +20,21 @@ export class ApiService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
 
+    getPersons(): Observable<any> {
+        return this.httpClient
+            .get<any>(`${this.url}user`)
+            .pipe(catchError(this.handleError));
+    }
+
     savePerson(person: Person): Observable<Person> {
         return this.httpClient
             .post<Person>(`${this.url}user`, person, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
 
-    getPersons(): Observable<any> {
+    updatePerson(userId: any, person: Person): Observable<Person> {
         return this.httpClient
-            .get<any>(`${this.url}user`)
+            .put<Person>(`${this.url}user/${userId}`, person, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
 
