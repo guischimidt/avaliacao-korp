@@ -1,70 +1,11 @@
 <app-messages></app-messages>
 
-<div class="container">
-    <h2>Cadastrar Conta</h2>
-    <form [formGroup]="accountForm">
-        <mat-form-field appearance="outline">
-            <mat-label>Selecione a pessoa</mat-label>
-            <mat-select formControlName="userId">
-                <mat-option *ngFor="let user of users" [value]="user._id">
-                    {{ user.name }} - {{ user.cpf | mask: '000.000.000-00' }}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="accountForm.get('userId')?.hasError('required')">
-                Você deve selecionar uma pessoa
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Número da Conta</mat-label>
-            <input
-                type="number"
-                matInput
-                placeholder="Número da Conta"
-                formControlName="accountNumber"
-            />
-            <mat-error
-                *ngIf="accountForm.get('accountNumber')?.hasError('required')"
-            >
-                O número de conta é obrigatório
-            </mat-error>
-        </mat-form-field>
-
-        <div>
-            <button mat-flat-button color="primary" (click)="onSubmit()">
-                Salvar
-            </button>
-            <button mat-flat-button color="secondary" (click)="resetForm()">
-                Limpar
-            </button>
-        </div>
-    </form>
-
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{ element.userId.name }}
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="cpf">
-            <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{ element.userId.cpf | mask: '000.000.000-00' }}
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="accountNumber">
-            <mat-header-cell *matHeaderCellDef>
-                Número da Conta
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{ element.accountNumber }}
-            </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-</div>
+<h2>Cadastrar Conta</h2>
+<app-accounts-form
+    class="container"
+    (submitForm)="onSubmitForm($event)"
+></app-accounts-form>
+<app-accounts-table
+    class="container"
+    [dataSource]="dataSource"
+></app-accounts-table>

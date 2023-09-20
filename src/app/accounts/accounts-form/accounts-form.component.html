@@ -1,0 +1,37 @@
+<form [formGroup]="accountForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Selecione a pessoa</mat-label>
+        <mat-select formControlName="userId">
+            <mat-option *ngFor="let user of users" [value]="user._id">
+                {{ user.name }} - {{ user.cpf | mask: '000.000.000-00' }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="accountForm.get('userId')?.hasError('required')">
+            Você deve selecionar uma pessoa
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Número da Conta</mat-label>
+        <input
+            type="number"
+            matInput
+            placeholder="Número da Conta"
+            formControlName="accountNumber"
+        />
+        <mat-error
+            *ngIf="accountForm.get('accountNumber')?.hasError('required')"
+        >
+            O número de conta é obrigatório
+        </mat-error>
+    </mat-form-field>
+
+    <div>
+        <button mat-flat-button color="primary" (click)="onSubmit()">
+            Salvar
+        </button>
+        <button mat-flat-button color="secondary" (click)="onReset()">
+            Limpar
+        </button>
+    </div>
+</form>

@@ -42,30 +42,27 @@ export class AccountsComponent implements OnInit {
         });
     }
 
-    onSubmit() {
-        if (this.accountForm.valid) {
-            this.apiService.saveAccount(this.accountForm.value).subscribe({
+    onSubmitForm(formData: any) {
+        if (formData) {
+            this.apiService.saveAccount(formData).subscribe({
                 next: () => {
                     this.messagesService.sendMessage(
-                        'Conta cadastrada com sucesso',
+                        'Pessoa cadastrada com sucesso',
                         'success'
                     );
-                    this.resetForm();
-                    this.ngOnInit();
+
+                    this.refreshTable();
                 },
                 error: (error) => {
                     this.messagesService.sendMessage(error.message, 'error');
                 },
             });
-        } else {
-            this.messagesService.sendMessage(
-                'Formulário inválido. Não pode ser enviado.',
-                'error'
-            );
         }
     }
 
-    resetForm() {
-        this.resetFormService.resetForm(this.accountForm);
+    private refreshTable() {
+        this.apiService.getAccounts().subscribe((res) => {
+            this.dataSource.data = res;
+        });
     }
 }
