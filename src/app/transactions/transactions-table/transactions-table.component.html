@@ -1,0 +1,32 @@
+<mat-table *ngIf="balance" [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            {{ element.createdAt | date: 'short' }}
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>Total</mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            {{ element.type === 'deposit' ? 'Depósito' : 'Retirada' }}
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
+        <mat-cell
+            *matCellDef="let element"
+            [ngClass]="{ withdraw: element.type === 'withdraw' }"
+        >
+            R$ {{ element.amount | number: '1.2-2' }}
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef> R$ {{ balance }}</mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+</mat-table>

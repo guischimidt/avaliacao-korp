@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TransactionsComponent } from './transactions/transactions.component';
-
 const routes: Routes = [
     { path: '', redirectTo: '/contas', pathMatch: 'full' },
     {
@@ -15,7 +13,13 @@ const routes: Routes = [
         loadChildren: () =>
             import('./accounts/accounts.module').then((m) => m.AccountsModule),
     },
-    { path: 'transacoes', component: TransactionsComponent },
+    {
+        path: 'transacoes',
+        loadChildren: () =>
+            import('./transactions/transactions.module').then(
+                (m) => m.TransactionsModule
+            ),
+    },
 ];
 
 @NgModule({
