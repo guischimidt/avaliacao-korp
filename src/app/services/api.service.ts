@@ -6,13 +6,14 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environments';
 import { Person } from '../models/person';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ApiService {
-    url = 'http://localhost:3000/';
+    private readonly url = environment.apiUrl;
 
     constructor(private httpClient: HttpClient) {}
 
