@@ -32,10 +32,10 @@ export class TransactionsFormComponent implements OnInit {
         private apiService: ApiService
     ) {
         this.transactionForm = this.fb.group({
-            userId: [null],
-            accountId: [null],
-            amount: [null],
-            transactionType: [null],
+            userId: [[null], Validators.required],
+            accountId: [[null], Validators.required],
+            amount: [[null], Validators.required],
+            transactionType: [[null], Validators.required],
         });
     }
 
