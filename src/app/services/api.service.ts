@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environments';
 import { Person } from '../models/person';
+import { Account } from '../models/account';
 
 @Injectable({
     providedIn: 'root',
@@ -21,9 +22,9 @@ export class ApiService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
 
-    getPersons(): Observable<any> {
+    getPersons(): Observable<Person[]> {
         return this.httpClient
-            .get<any>(`${this.url}user`)
+            .get<Person[]>(`${this.url}user`)
             .pipe(catchError(this.handleError));
     }
 
@@ -33,21 +34,21 @@ export class ApiService {
             .pipe(catchError(this.handleError));
     }
 
-    updatePerson(userId: any, person: Person): Observable<Person> {
+    updatePerson(userId: string, person: Person): Observable<Person> {
         return this.httpClient
             .put<Person>(`${this.url}user/${userId}`, person, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
 
-    deletePerson(userId: any): Observable<any> {
+    deletePerson(userId: string): Observable<void> {
         return this.httpClient
-            .delete<any>(`${this.url}user/${userId}`)
+            .delete<void>(`${this.url}user/${userId}`)
             .pipe(catchError(this.handleError));
     }
 
-    saveAccount(values: any): Observable<any> {
+    saveAccount(values: Account): Observable<Account> {
         return this.httpClient
-            .post<any>(
+            .post<Account>(
                 `${this.url}account/${values.userId}`,
                 values,
                 this.httpOptions
@@ -71,7 +72,7 @@ export class ApiService {
             .pipe(catchError(this.handleError));
     }
 
-    getTransactions(accountId: any): Observable<any> {
+    getTransactions(accountId: string): Observable<any> {
         return this.httpClient
             .get<any>(`${this.url}account/${accountId}/transactions`)
             .pipe(catchError(this.handleError));
