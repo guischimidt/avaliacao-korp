@@ -12,6 +12,8 @@ import { ResetFormService } from '../../services/reset-form.service';
 
 import { CPFValidator } from '../../shared/cpf.validator';
 
+import { Person } from '../../models/person';
+
 @Component({
     selector: 'app-persons-form',
     templateUrl: './persons-form.component.html',
@@ -20,7 +22,7 @@ import { CPFValidator } from '../../shared/cpf.validator';
 export class PersonsFormComponent implements OnChanges {
     @Output() submitForm: EventEmitter<void> = new EventEmitter<void>();
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
-    @Input() formData: any;
+    @Input() formData: Person[] = [];
 
     personForm: FormGroup;
 
