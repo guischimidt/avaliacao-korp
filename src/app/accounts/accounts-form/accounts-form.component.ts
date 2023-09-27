@@ -26,6 +26,7 @@ export class AccountsFormComponent implements OnInit {
         private resetFormService: ResetFormService,
         private apiService: ApiService
     ) {
+        // Reactive form
         this.accountForm = this.fb.group({
             userId: [null, Validators.required],
             accountNumber: [null, Validators.required],

@@ -31,6 +31,7 @@ export class PersonsFormComponent implements OnChanges {
     ) {
         this.personForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(7)]],
+            // Custom validator
             cpf: ['', [Validators.required, CPFValidator.isValidCpf()]],
             address: ['', [Validators.required, Validators.minLength(10)]],
         });

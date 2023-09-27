@@ -1,8 +1,11 @@
+<!-- Databinding (Property binding)-->
 <form [formGroup]="accountForm">
     <mat-form-field appearance="outline">
         <mat-label>Selecione a pessoa</mat-label>
         <mat-select formControlName="userId">
+            <!-- Diretiva -->
             <mat-option *ngFor="let person of persons" [value]="person._id">
+                <!-- Databinding (Interpolation)-->
                 {{ person.name }} - {{ person.cpf | mask: '000.000.000-00' }}
             </mat-option>
         </mat-select>
@@ -27,6 +30,7 @@
     </mat-form-field>
 
     <div>
+        <!-- Databinding (Event binding)-->
         <button mat-flat-button color="primary" (click)="onSubmit()">
             Salvar
         </button>

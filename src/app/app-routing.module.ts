@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     { path: '', redirectTo: '/contas', pathMatch: 'full' },
+
+    //Lazy load com rotas filhas
     {
         path: 'pessoas',
         loadChildren: () =>
