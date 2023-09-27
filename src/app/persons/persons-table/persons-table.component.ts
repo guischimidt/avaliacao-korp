@@ -10,14 +10,14 @@ import { Person } from '../../models/person';
 export class PersonsTableComponent {
     @Input() dataSource: MatTableDataSource<Person> =
         new MatTableDataSource<Person>();
-    @Output() deleteClicked = new EventEmitter<void>();
-    @Output() editClicked = new EventEmitter<void>();
+    @Output() deleteClicked: EventEmitter<string> = new EventEmitter<string>();
+    @Output() editClicked: EventEmitter<Person> = new EventEmitter<Person>();
 
-    onDelete(userId: any) {
+    onDelete(userId: string) {
         this.deleteClicked.emit(userId);
     }
 
-    onEdit(userData: any) {
+    onEdit(userData: Person) {
         this.editClicked.emit(userData);
     }
     displayedColumns: string[] = ['name', 'cpf', 'address', 'edit', 'delete'];
