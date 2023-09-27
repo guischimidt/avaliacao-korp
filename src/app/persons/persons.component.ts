@@ -68,7 +68,7 @@ export class PersonsComponent implements OnInit {
         }
     }
 
-    onDelete(userId: any) {
+    onDelete(userId: string) {
         if (userId) {
             this.apiService.deletePerson(userId).subscribe({
                 next: () => {
@@ -86,7 +86,7 @@ export class PersonsComponent implements OnInit {
         }
     }
 
-    onEdit(userData: any) {
+    onEdit(userData: Person) {
         this.selectedUserData = userData;
     }
 
