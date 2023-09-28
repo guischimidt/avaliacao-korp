@@ -27,7 +27,9 @@
         >
             R$ {{ element.amount | number: '1.2-2' }}
         </mat-cell>
-        <mat-footer-cell *matFooterCellDef> R$ {{ balance }}</mat-footer-cell>
+        <mat-footer-cell *matFooterCellDef>
+            R$ {{ balance | number: '1.2-2' }}</mat-footer-cell
+        >
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
