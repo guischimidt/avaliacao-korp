@@ -1,4 +1,8 @@
-<mat-table *ngIf="balance" [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-table
+    *ngIf="dataSource.data.length > 0"
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+>
     <ng-container matColumnDef="date">
         <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
         <mat-cell *matCellDef="let element">
