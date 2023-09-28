@@ -26,7 +26,7 @@ export class PersonsComponent implements OnInit {
         });
     }
 
-    onSubmitForm(formData: any) {
+    onSubmitForm(formData: Person) {
         if (formData) {
             if (this.selectedUserData) {
                 this.apiService

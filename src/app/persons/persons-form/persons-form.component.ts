@@ -20,7 +20,7 @@ import { Person } from '../../models/person';
     styleUrls: ['./persons-form.component.sass'],
 })
 export class PersonsFormComponent implements OnChanges {
-    @Output() submitForm: EventEmitter<void> = new EventEmitter<void>();
+    @Output() submitForm: EventEmitter<Person> = new EventEmitter<Person>();
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
     @Input() formData: Person[] = [];
 
@@ -43,7 +43,6 @@ export class PersonsFormComponent implements OnChanges {
         if (this.formData) {
             this.personForm.patchValue(this.formData);
         }
-        console.log(this.formData);
     }
 
     onSubmit() {
