@@ -6,24 +6,38 @@ import { MessagesService } from '../../services/messages.service';
 import { ResetFormService } from '../../services/reset-form.service';
 import { ApiService } from '../../services/api.service';
 
+import { Person } from '../../models/person';
+import { Account } from '../../models/account';
+import { Transaction } from '../../models/transaction';
+
 @Component({
     selector: 'app-transactions-form',
     templateUrl: './transactions-form.component.html',
     styleUrls: ['./transactions-form.component.sass'],
 })
 export class TransactionsFormComponent implements OnInit {
-    @Output() submitForm: EventEmitter<void> = new EventEmitter<void>();
+    @Output() submitForm: EventEmitter<{
+        accountId: string;
+        amount: number;
+        transactionType: string;
+        userId: string;
+    }> = new EventEmitter<{
+        accountId: string;
+        amount: number;
+        transactionType: string;
+        userId: string;
+    }>();
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
-    @Output() dataSourceChange: EventEmitter<MatTableDataSource<any>> =
-        new EventEmitter<MatTableDataSource<any>>();
-    @Output() balanceChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() dataSourceChange: EventEmitter<MatTableDataSource<Transaction>> =
+        new EventEmitter<MatTableDataSource<Transaction>>();
+    @Output() balanceChange: EventEmitter<number> = new EventEmitter<number>();
 
-    public dataSource = new MatTableDataSource<any>();
+    public dataSource = new MatTableDataSource<Transaction>();
 
     transactionForm: FormGroup;
-    users: any;
-    accounts: any;
-    balance: any;
+    persons: Person[] = [];
+    accounts: Account[] = [];
+    balance = 0;
 
     constructor(
         private fb: FormBuilder,
@@ -32,16 +46,16 @@ export class TransactionsFormComponent implements OnInit {
         private apiService: ApiService
     ) {
         this.transactionForm = this.fb.group({
-            userId: [[null], Validators.required],
-            accountId: [[null], Validators.required],
-            amount: [[null], Validators.required],
-            transactionType: [[null], Validators.required],
+            userId: [null, Validators.required],
+            accountId: [null, Validators.required],
+            amount: [null, Validators.required],
+            transactionType: [null, Validators.required],
         });
     }
 
     ngOnInit(): void {
         this.apiService.getPersons().subscribe((res) => {
-            this.users = res;
+            this.persons = res;
         });
 
         this.transactionForm.get('userId')?.valueChanges.subscribe((userId) => {
@@ -59,12 +73,11 @@ export class TransactionsFormComponent implements OnInit {
             });
     }
 
-    getAccounts(userId: any) {
+    getAccounts(userId: string) {
         this.apiService.getAccounts().subscribe((res) => {
             this.accounts = res;
             this.accounts = this.accounts.filter(
-                (account: { userId: { _id: any } }) =>
-                    account.userId._id === userId
+                (account: Account) => account.userId._id === userId
             );
             if (this.transactionForm.value.accountId) {
                 this.updateBalance(this.transactionForm.value.accountId);
@@ -72,17 +85,17 @@ export class TransactionsFormComponent implements OnInit {
         });
     }
 
-    updateBalance(accountId: any) {
-        this.balance = this.accounts.find(
-            (account: { _id: any }) => account._id === accountId
-        ).balance;
+    updateBalance(accountId: string) {
+        this.balance =
+            this.accounts.find((account: Account) => account._id === accountId)
+                ?.balance || 0;
         this.balanceChange.emit(this.balance);
     }
 
-    getTransactions(accountId: any) {
-        this.balance = this.accounts.find(
-            (account: { _id: any }) => account._id === accountId
-        )?.balance;
+    getTransactions(accountId: string) {
+        this.balance =
+            this.accounts.find((account: Account) => account._id === accountId)
+                ?.balance || 0;
 
         this.apiService.getTransactions(accountId).subscribe((res) => {
             this.dataSource.data = res;
@@ -96,7 +109,12 @@ export class TransactionsFormComponent implements OnInit {
 
     onSubmit() {
         if (this.transactionForm.valid) {
-            this.submitForm.emit(this.transactionForm.value);
+            this.submitForm.emit({
+                accountId: this.transactionForm.value.accountId,
+                amount: this.transactionForm.value.amount,
+                transactionType: this.transactionForm.value.transactionType,
+                userId: this.transactionForm.value.userId,
+            });
             this.getAccounts(this.transactionForm.value.userId);
             this.getTransactions(this.transactionForm.value.accountId);
         } else {
@@ -109,7 +127,7 @@ export class TransactionsFormComponent implements OnInit {
 
     onReset() {
         this.resetFormService.resetForm(this.transactionForm);
-        this.balance = null;
+        this.balance = 0;
         this.balanceChange.emit(this.balance);
     }
 }

@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../services/api.service';
 import { MessagesService } from '../services/messages.service';
 
+import { Transaction } from '../../app/models/transaction';
+
 @Component({
     selector: 'app-transactions',
     templateUrl: './transactions.component.html',
@@ -15,20 +17,23 @@ export class TransactionsComponent {
         private messagesService: MessagesService
     ) {}
 
-    public dataSource = new MatTableDataSource<any>();
-    balance: any;
+    public dataSource = new MatTableDataSource<Transaction>();
+    balance = 0;
 
-    onDataSourceChange(data: MatTableDataSource<any>) {
+    onDataSourceChange(data: MatTableDataSource<Transaction>) {
         this.dataSource = data;
     }
 
-    onBalanceChange(balance: any) {
-        console.log(balance);
-
+    onBalanceChange(balance: number) {
         this.balance = balance;
     }
 
-    onSubmitForm(formData: any) {
+    onSubmitForm(formData: {
+        accountId: string;
+        amount: number;
+        transactionType: string;
+        userId: string;
+    }) {
         if (formData) {
             this.apiService.saveTransaction(formData).subscribe({
                 next: () => {

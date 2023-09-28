@@ -2,8 +2,8 @@
     <mat-form-field appearance="outline">
         <mat-label>Selecione a pessoa</mat-label>
         <mat-select formControlName="userId">
-            <mat-option *ngFor="let user of users" [value]="user._id">
-                {{ user.name }} - {{ user.cpf | mask: '000.000.000-00' }}
+            <mat-option *ngFor="let person of persons" [value]="person._id">
+                {{ person.name }} - {{ person.cpf | mask: '000.000.000-00' }}
             </mat-option>
         </mat-select>
         <mat-error *ngIf="transactionForm.get('userId')?.hasError('required')">
