@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MessagesService } from '../../services/messages.service';
@@ -8,7 +8,7 @@ import { MessagesService } from '../../services/messages.service';
     templateUrl: './messages.component.html',
     styleUrls: ['./messages.component.sass'],
 })
-export class MessagesComponent implements OnInit, OnDestroy {
+export class MessagesComponent implements OnInit {
     message: string | undefined;
     type: string | undefined;
 
@@ -23,11 +23,5 @@ export class MessagesComponent implements OnInit, OnDestroy {
                 this.message = message.message;
                 this.type = message.type;
             });
-    }
-
-    ngOnDestroy(): void {
-        if (this.messageSubscription) {
-            this.messageSubscription.unsubscribe();
-        }
     }
 }
