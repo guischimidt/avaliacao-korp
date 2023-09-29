@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { MessagesService } from '../../services/messages.service';
 import { ResetFormService } from '../../services/reset-form.service';
@@ -18,7 +19,7 @@ export class AccountsFormComponent implements OnInit {
     @Output() resetForm: EventEmitter<void> = new EventEmitter<void>();
 
     accountForm: FormGroup;
-    persons: Person[] = [];
+    public persons$!: Observable<Person[]>;
 
     constructor(
         private fb: FormBuilder,
@@ -34,9 +35,7 @@ export class AccountsFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.apiService.getPersons().subscribe((res) => {
-            this.persons = res;
-        });
+        this.persons$ = this.apiService.getPersons();
     }
 
     onSubmit() {

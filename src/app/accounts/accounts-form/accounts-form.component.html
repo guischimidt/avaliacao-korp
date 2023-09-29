@@ -4,7 +4,10 @@
         <mat-label>Selecione a pessoa</mat-label>
         <mat-select formControlName="userId">
             <!-- Diretiva -->
-            <mat-option *ngFor="let person of persons" [value]="person._id">
+            <mat-option
+                *ngFor="let person of persons$ | async"
+                [value]="person._id"
+            >
                 <!-- Databinding (Interpolation)-->
                 {{ person.name }} - {{ person.cpf | mask: '000.000.000-00' }}
             </mat-option>

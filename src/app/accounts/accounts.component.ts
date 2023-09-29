@@ -7,6 +7,7 @@ import { MessagesService } from '../services/messages.service';
 
 import { Person } from '../models/person';
 import { Account } from '../models/account';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-accounts',
@@ -18,7 +19,7 @@ export class AccountsComponent implements OnInit {
     public dataSource = new MatTableDataSource<Person>();
 
     accountForm: FormGroup;
-    persons: Person[] = [];
+    public persons$!: Observable<Person[]>;
 
     constructor(
         private fb: FormBuilder,
@@ -61,8 +62,6 @@ export class AccountsComponent implements OnInit {
     }
 
     private getUsers() {
-        this.apiService.getPersons().subscribe((res) => {
-            this.persons = res;
-        });
+        this.persons$ = this.apiService.getPersons();
     }
 }
